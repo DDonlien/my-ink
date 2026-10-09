@@ -1,0 +1,95 @@
+{
+  "url": "http://127.0.0.1:4318/ink/",
+  "desktop": [
+    {
+      "appearance": "none",
+      "arrow": {
+        "height": 18,
+        "width": 18,
+        "x": 227.5,
+        "y": 225
+      },
+      "centerOffset": 0,
+      "name": "剧情图段落",
+      "paddingRight": "36px",
+      "pointerEvents": "none",
+      "rightInset": 12,
+      "select": {
+        "height": 44,
+        "width": 175.5,
+        "x": 82,
+        "y": 212
+      },
+      "value": "opening"
+    },
+    {
+      "appearance": "none",
+      "arrow": {
+        "height": 18,
+        "width": 18,
+        "x": 608.2421875,
+        "y": 225
+      },
+      "centerOffset": 0,
+      "name": "顺序对话显示",
+      "paddingRight": "36px",
+      "pointerEvents": "none",
+      "rightInset": 12,
+      "select": {
+        "height": 44,
+        "width": 126,
+        "x": 512.2421875,
+        "y": 212
+      },
+      "value": "merged"
+    }
+  ],
+  "mobile": {
+    "controls": [
+      {
+        "arrow": {
+          "height": 18,
+          "width": 18,
+          "x": 181,
+          "y": 289
+        },
+        "centerOffset": 0,
+        "display": "flex",
+        "name": "剧情图段落",
+        "rightInset": 8,
+        "select": {
+          "height": 40,
+          "width": 145,
+          "x": 62,
+          "y": 278
+        }
+      },
+      {
+        "arrow": {
+          "height": 18,
+          "width": 18,
+          "x": 332,
+          "y": 289
+        },
+        "centerOffset": 0,
+        "display": "flex",
+        "name": "顺序对话显示",
+        "rightInset": 8,
+        "select": {
+          "height": 40,
+          "width": 108,
+          "x": 250,
+          "y": 278
+        }
+      }
+    ],
+    "pageWidth": 390,
+    "width": 390
+  },
+  "openedNativeMenuByArrow": true,
+  "keyboardSelection": {
+    "text": "公寓 · 调查分支",
+    "value": "investigation"
+  },
+  "console": []
+}

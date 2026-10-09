@@ -1,0 +1,14 @@
+[
+  {
+    "file": "roboto-flex-latin.woff2",
+    "css_url": "https://fonts.googleapis.com/css2?family=Roboto+Flex%3Aopsz%2Cwght%408..144%2C100..1000&display=swap",
+    "source_url": "https://fonts.gstatic.com/s/robotoflex/v30/NaNNepOXO_NexZs0b5QrzlOHb8wCikXpYqmZsWI-__OGbt8jZktqc2V3Zs0KvDLdBP8SBZtOs2IifRuUZQMsPJtUsR4DEK6cULNeUx9XgTnH37Ha_FIAp4Fm0PP1hw45DntW2x0wZGzhPmr1YNMYKYn9_1IQXGwJAiUJVUMdN5YUW4O8HtSoXjC79QRyaLshNDUf3e0O-gn5rrZCu20YNau4OPFu02G5.woff2",
+    "bytes": 84572
+  },
+  {
+    "file": "material-symbols-rounded.woff2",
+    "css_url": "https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded%3Aopsz%2Cwght%2CFILL%2CGRAD%4020..48%2C400..700%2C0..1%2C0&icon_names=account_tree%2Carrow_downward%2Carrow_forward%2Carrow_upward%2Carticle%2Cauto_awesome%2Cbolt%2Ccancel%2Cchat%2Cchat_bubble%2Ccheck%2Ccheck_circle%2Cchevron_right%2Cclose%2Cdescription%2Cdownload%2Cerror%2Cexpand_more%2Cfolder_open%2Cfullscreen%2Cfullscreen_exit%2Chistory%2Chub%2Cmenu_book%2Cmore_horiz%2Cnorth_east%2Cnote_add%2Cplay_arrow%2Crestart_alt%2Croute%2Csave%2Cschedule%2Csubdirectory_arrow_right%2Ctag%2Ctune%2Cupload_file&display=block",
+    "source_url": "https://fonts.gstatic.com/l/font?kit=sykd-zNym6YjUruM-QrEh7-nyTnjDwKNJ_190FjpZIvLgyidOK7BDB_QddX2jbB-Sy-AmZ9qnQC03Hai6E8cgVzs3wLb25rIc-qqrKGXZFCR-MEhrfr4ezYSnWKoqng5USAIkSz2iQxGr_yuKNmgim2K_KIdkqy9meRg0A&skey=70ddea8fe54d532e&v=v376",
+    "bytes": 24620
+  }
+]

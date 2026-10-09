@@ -1,0 +1,122 @@
+{
+  "url": "http://127.0.0.1:4318/ink/",
+  "merged": [
+    {
+      "caption": "对白",
+      "icon": "chat",
+      "iconClass": "node-icon dialogue",
+      "options": 2
+    },
+    {
+      "caption": "对白",
+      "icon": "chat",
+      "iconClass": "node-icon dialogue",
+      "options": 0
+    },
+    {
+      "caption": "对话结束",
+      "icon": "chat",
+      "iconClass": "node-icon end",
+      "options": 0
+    },
+    {
+      "caption": "对白",
+      "icon": "chat",
+      "iconClass": "node-icon dialogue",
+      "options": 0
+    },
+    {
+      "caption": "对话结束",
+      "icon": "chat",
+      "iconClass": "node-icon end",
+      "options": 0
+    }
+  ],
+  "split": [
+    {
+      "caption": "对白",
+      "icon": "chat",
+      "iconClass": "node-icon dialogue",
+      "options": 1
+    },
+    {
+      "caption": "对白",
+      "icon": "chat",
+      "iconClass": "node-icon dialogue",
+      "options": 1
+    },
+    {
+      "caption": "对白",
+      "icon": "chat",
+      "iconClass": "node-icon dialogue",
+      "options": 1
+    },
+    {
+      "caption": "对白",
+      "icon": "chat",
+      "iconClass": "node-icon dialogue",
+      "options": 2
+    },
+    {
+      "caption": "对白",
+      "icon": "chat",
+      "iconClass": "node-icon dialogue",
+      "options": 1
+    },
+    {
+      "caption": "对白",
+      "icon": "chat",
+      "iconClass": "node-icon dialogue",
+      "options": 1
+    },
+    {
+      "caption": "对白",
+      "icon": "chat",
+      "iconClass": "node-icon dialogue",
+      "options": 1
+    },
+    {
+      "caption": "对白",
+      "icon": "chat",
+      "iconClass": "node-icon dialogue",
+      "options": 0
+    },
+    {
+      "caption": "对话结束",
+      "icon": "chat",
+      "iconClass": "node-icon end",
+      "options": 0
+    },
+    {
+      "caption": "对白",
+      "icon": "chat",
+      "iconClass": "node-icon dialogue",
+      "options": 1
+    },
+    {
+      "caption": "对白",
+      "icon": "chat",
+      "iconClass": "node-icon dialogue",
+      "options": 1
+    },
+    {
+      "caption": "对白",
+      "icon": "chat",
+      "iconClass": "node-icon dialogue",
+      "options": 1
+    },
+    {
+      "caption": "对白",
+      "icon": "chat",
+      "iconClass": "node-icon dialogue",
+      "options": 0
+    },
+    {
+      "caption": "对话结束",
+      "icon": "chat",
+      "iconClass": "node-icon end",
+      "options": 0
+    }
+  ],
+  "console": []
+}

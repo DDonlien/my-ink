@@ -1,0 +1,9 @@
+# Insert into the existing https://git.freshli4.com:10443 site.
+# The final handle retains the existing Gitea upstream.
+redir /ink /ink/ 308
+handle_path /ink/* {
+    reverse_proxy ink-loom-web:8080
+}
+handle {
+    reverse_proxy server:3000
+}

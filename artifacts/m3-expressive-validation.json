@@ -1,0 +1,67 @@
+{
+  "release": "20261007T143823Z-3b807589ef",
+  "design_system": "Material Design 3 Expressive",
+  "automated_tests": {
+    "passed": 88,
+    "files": 8
+  },
+  "browser_views": [
+    {
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "width": 390,
+      "height": 844
+    }
+  ],
+  "development_browser_checks": [
+    "four_function_pages",
+    "manual_continue",
+    "dialogue_and_choice_editor",
+    "source_dialog_and_line_alignment",
+    "tutorial_dialog",
+    "no_horizontal_text_overflow",
+    "local_fonts_and_icons",
+    "option_anchors",
+    "empty_drop_returns_to_structure"
+  ],
+  "production_build_browser_checks": [
+    "preview",
+    "graph_lazy_loading",
+    "scene_selection"
+  ],
+  "empty_drop_position": {
+    "before": [
+      28,
+      407
+    ],
+    "after": [
+      28,
+      407
+    ]
+  },
+  "source_line_alignment": {
+    "line": 259,
+    "gutter_top": 387.296875,
+    "text_top": 387.296875
+  },
+  "screenshot": {
+    "path": "artifacts/m3-expressive-preview.jpg",
+    "source": "local_production_build",
+    "sha256": "080f121000728b7a12e160799c5979c455ed54986e20f6c2388162fe6f86b01b"
+  },
+  "public_verification": {
+    "files": 16,
+    "fonts": 2,
+    "hashes_and_mime_types": "passed",
+    "git_home_http_status": 200,
+    "container_health": "healthy",
+    "browser_ui": "timed_out"
+  },
+  "real_browser_validation_not_completed": [
+    "public_ui",
+    "valid_structural_exchange",
+    "complete_download_flow"
+  ]
+}

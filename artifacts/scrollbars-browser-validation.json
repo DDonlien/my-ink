@@ -1,0 +1,61 @@
+{
+  "url": "http://127.0.0.1:4318/ink/",
+  "worldIdle": {
+    "color": "rgba(0, 0, 0, 0) rgba(0, 0, 0, 0)",
+    "top": 432,
+    "visible": false,
+    "width": 1224
+  },
+  "worldActive": {
+    "color": "rgba(129, 117, 135, 0.325) rgba(0, 0, 0, 0)",
+    "top": 648,
+    "visible": true,
+    "width": 1224
+  },
+  "worldStopped": {
+    "color": "rgba(0, 0, 0, 0) rgba(0, 0, 0, 0)",
+    "visible": false,
+    "width": 1224
+  },
+  "nodeActive": {
+    "color": "rgba(129, 117, 135, 0.525) rgba(0, 0, 0, 0)",
+    "top": 216,
+    "visible": true,
+    "width": 1176
+  },
+  "nodeIdle": {
+    "color": "rgba(0, 0, 0, 0) rgba(0, 0, 0, 0)",
+    "top": 216,
+    "visible": false,
+    "width": 1176
+  },
+  "sourceIdle": {
+    "color": "rgba(0, 0, 0, 0) rgba(0, 0, 0, 0)",
+    "top": 2796,
+    "visible": false,
+    "width": 1100
+  },
+  "sourceActive": {
+    "color": "rgba(129, 117, 135, 0.52) rgba(0, 0, 0, 0)",
+    "top": 3012,
+    "visible": true,
+    "width": 1100
+  },
+  "sourceStopped": {
+    "color": "rgba(0, 0, 0, 0) rgba(0, 0, 0, 0)",
+    "visible": false,
+    "width": 1100
+  },
+  "tutorialActive": {
+    "color": "rgba(129, 117, 135, 0.46) rgba(0, 0, 0, 0)",
+    "top": 216,
+    "visible": true,
+    "width": 720
+  },
+  "tutorialStopped": {
+    "color": "rgba(0, 0, 0, 0) rgba(0, 0, 0, 0)",
+    "visible": false,
+    "width": 720
+  },
+  "console": []
+}

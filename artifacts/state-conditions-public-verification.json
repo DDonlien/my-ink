@@ -1,0 +1,125 @@
+{
+  "release": "20261007T155900Z-337b3f95ec",
+  "verified_at_utc": "2026-10-07T16:02:18.999896+00:00",
+  "normal_tls_validation": true,
+  "files": [
+    {
+      "path": "assets/SourceEditor-BPnk2Ort.js",
+      "status": 200,
+      "mime": "text/javascript",
+      "hash_matches": true,
+      "cache": "public, max-age=31536000, immutable"
+    },
+    {
+      "path": "assets/StoryGraph-ChKXr091.js",
+      "status": 200,
+      "mime": "text/javascript",
+      "hash_matches": true,
+      "cache": "public, max-age=31536000, immutable"
+    },
+    {
+      "path": "assets/editor-D7tbmCMZ.js",
+      "status": 200,
+      "mime": "text/javascript",
+      "hash_matches": true,
+      "cache": "public, max-age=31536000, immutable"
+    },
+    {
+      "path": "assets/graph-Cm5_TOmu.js",
+      "status": 200,
+      "mime": "text/javascript",
+      "hash_matches": true,
+      "cache": "public, max-age=31536000, immutable"
+    },
+    {
+      "path": "assets/graph-DLioOiRN.css",
+      "status": 200,
+      "mime": "text/css",
+      "hash_matches": true,
+      "cache": "public, max-age=31536000, immutable"
+    },
+    {
+      "path": "assets/index-BaZjo5NU.css",
+      "status": 200,
+      "mime": "text/css",
+      "hash_matches": true,
+      "cache": "public, max-age=31536000, immutable"
+    },
+    {
+      "path": "assets/index-Bd3vrpMg.js",
+      "status": 200,
+      "mime": "text/javascript",
+      "hash_matches": true,
+      "cache": "public, max-age=31536000, immutable"
+    },
+    {
+      "path": "assets/ink-Cj8eQ104.js",
+      "status": 200,
+      "mime": "text/javascript",
+      "hash_matches": true,
+      "cache": "public, max-age=31536000, immutable"
+    },
+    {
+      "path": "assets/rolldown-runtime-Dd_uD5pT.js",
+      "status": 200,
+      "mime": "text/javascript",
+      "hash_matches": true,
+      "cache": "public, max-age=31536000, immutable"
+    },
+    {
+      "path": "favicon.svg",
+      "status": 200,
+      "mime": "image/svg+xml",
+      "hash_matches": true,
+      "cache": "no-cache"
+    },
+    {
+      "path": "fonts/MaterialSymbols-LICENSE.txt",
+      "status": 200,
+      "mime": "text/plain",
+      "hash_matches": true,
+      "cache": "no-cache"
+    },
+    {
+      "path": "fonts/RobotoFlex-OFL.txt",
+      "status": 200,
+      "mime": "text/plain",
+      "hash_matches": true,
+      "cache": "no-cache"
+    },
+    {
+      "path": "fonts/material-symbols-rounded.woff2",
+      "status": 200,
+      "mime": "font/woff2",
+      "hash_matches": true,
+      "cache": "no-cache"
+    },
+    {
+      "path": "fonts/roboto-flex-latin.woff2",
+      "status": 200,
+      "mime": "font/woff2",
+      "hash_matches": true,
+      "cache": "no-cache"
+    },
+    {
+      "path": "fonts/sources.json",
+      "status": 200,
+      "mime": "application/json",
+      "hash_matches": true,
+      "cache": "no-cache"
+    },
+    {
+      "path": "index.html",
+      "status": 200,
+      "mime": "text/html",
+      "hash_matches": true,
+      "cache": "no-cache"
+    }
+  ],
+  "git_home_status": 200,
+  "remote": {
+    "release": "20261007T155900Z-337b3f95ec",
+    "gateway": "395e59078dc633b051879a5989ffc15cdd5eb816846b9d64450c714aa1619be2",
+    "container": "running / healthy"
+  }
+}

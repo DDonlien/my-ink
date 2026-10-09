@@ -1,0 +1,63 @@
+{
+  "build": "production",
+  "url": "http://127.0.0.1:4318/ink/",
+  "panel": {
+    "height": 853,
+    "overflow": false,
+    "panelExists": true,
+    "rawFields": 0,
+    "saveFooter": false,
+    "text": "状态结果 · 回声地产 · 试岗已接下委托：是来自对话 · 接下旧公寓的查验委托",
+    "width": 872
+  },
+  "mergedOrigin": {
+    "inspectorOpen": false,
+    "option": "↗ 接下旧公寓的查验委托",
+    "originId": "job_interview"
+  },
+  "splitOrigin": {
+    "option": "↗ 接下旧公寓的查验委托",
+    "originId": "job_interview::step-4"
+  },
+  "conditionEditor": {
+    "height": 853,
+    "labels": [
+      {
+        "name": "条件 · 查验条目",
+        "selected": "窄路行动结果"
+      },
+      {
+        "name": "条件 · 比较方式",
+        "selected": "等于"
+      },
+      {
+        "name": "条件 · 结果类型",
+        "selected": "文字"
+      },
+      {
+        "name": "条件 · 结果",
+        "selected": "已完成"
+      }
+    ],
+    "markdownButton": false,
+    "open": true,
+    "overflow": false,
+    "width": 872
+  },
+  "mobile": {
+    "dialogOverflow": false,
+    "height": 844,
+    "pageOverflow": false,
+    "resultsVisible": [
+      "窄路行动结果",
+      "等于",
+      "文字",
+      "已完成"
+    ],
+    "width": 390
+  },
+  "actualConditionApply": "Chinese result selection updated graph predicate",
+  "restore": "completed",
+  "consoleWarningsAndErrors": [],
+  "public_browser_review": "timed out while creating a hidden tab"
+}

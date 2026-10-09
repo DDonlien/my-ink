@@ -1,0 +1,40 @@
+{
+  "desktop": {
+    "badge": {
+      "accessibleLabel": "版本 0.1.0",
+      "centerError": 0,
+      "fontVariantNumeric": "tabular-nums",
+      "gap": 2,
+      "height": 24,
+      "lineHeight": "16px",
+      "padding": "4px 8px",
+      "text": "v0.1"
+    },
+    "contentTop": 164,
+    "horizontalOverflow": false,
+    "identityParagraphs": 0,
+    "sloganPresent": false,
+    "toolbarHeight": 84,
+    "viewport": {
+      "height": 720,
+      "width": 1280
+    }
+  },
+  "mobile": {
+    "contentTop": 258,
+    "horizontalOverflow": false,
+    "sloganPresent": false,
+    "toolbarHeight": 130,
+    "versionVisible": false,
+    "viewport": {
+      "height": 844,
+      "width": 390
+    }
+  },
+  "menu": {
+    "gapBelowDocumentButton": 10,
+    "text": "案件模板与文档无人接听的房间二重证言 · man-cat 第一案载入新版模板自动保留已有的案件改稿新建文档打开文件",
+    "withinViewport": true
+  },
+  "console": []
+}

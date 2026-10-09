@@ -1,0 +1,122 @@
+{
+  "release": "20261007T161854Z-5512cba191",
+  "url": "https://git.freshli4.com:10443/ink/",
+  "verified_at_utc": "2026-10-07T16:19:58.143420+00:00",
+  "files": [
+    {
+      "path": "assets/SourceEditor-C8dZ7LFA.js",
+      "sha256": "49c31dd0989b8bcf11773c44b6d0e879637e204185b41103a3c5c9601818b1b3",
+      "mime": "text/javascript; charset=utf-8",
+      "cache_control": "public, max-age=31536000, immutable",
+      "tls_verified": true
+    },
+    {
+      "path": "assets/StoryGraph-BRPRV8YB.js",
+      "sha256": "0d855b186275b9f97272c393510caaa25e097c85b0b78524600d6a4a572c39f5",
+      "mime": "text/javascript; charset=utf-8",
+      "cache_control": "public, max-age=31536000, immutable",
+      "tls_verified": true
+    },
+    {
+      "path": "assets/editor-D7tbmCMZ.js",
+      "sha256": "d93bf098224a2021b2e3296e0bfa2bdfe4bcab75d3ba82c6eaaa0b160e2dd246",
+      "mime": "text/javascript; charset=utf-8",
+      "cache_control": "public, max-age=31536000, immutable",
+      "tls_verified": true
+    },
+    {
+      "path": "assets/graph-Cm5_TOmu.js",
+      "sha256": "e178886a5ef89e9713ebbbf613c6c2bf0afed0aa78f42b0980c2a179c71ae8e1",
+      "mime": "text/javascript; charset=utf-8",
+      "cache_control": "public, max-age=31536000, immutable",
+      "tls_verified": true
+    },
+    {
+      "path": "assets/graph-DLioOiRN.css",
+      "sha256": "b0cb7bd6fec5951c9c8f5808821438206604b1629a912c96009ac427f38e7d69",
+      "mime": "text/css; charset=utf-8",
+      "cache_control": "public, max-age=31536000, immutable",
+      "tls_verified": true
+    },
+    {
+      "path": "assets/index-DPV3isxj.js",
+      "sha256": "6bac6633814d03a31c954baf62f8498a9e4463540004bb10693a077f38409aef",
+      "mime": "text/javascript; charset=utf-8",
+      "cache_control": "public, max-age=31536000, immutable",
+      "tls_verified": true
+    },
+    {
+      "path": "assets/index-sFjm8Qw3.css",
+      "sha256": "eeb23c9fe78cb1a1955a012ba715908206915227c714a39f2ac8a36ceebe7a95",
+      "mime": "text/css; charset=utf-8",
+      "cache_control": "public, max-age=31536000, immutable",
+      "tls_verified": true
+    },
+    {
+      "path": "assets/ink-Cj8eQ104.js",
+      "sha256": "ad02ffab1ef9668a1b23a981e31da5eebdadecff43ed688769fcf3c29c23a55d",
+      "mime": "text/javascript; charset=utf-8",
+      "cache_control": "public, max-age=31536000, immutable",
+      "tls_verified": true
+    },
+    {
+      "path": "assets/rolldown-runtime-Dd_uD5pT.js",
+      "sha256": "c5f0356f5d0918a3137e4e811fd18950efe8ac8f6bf84d1d4da7811c477a24d8",
+      "mime": "text/javascript; charset=utf-8",
+      "cache_control": "public, max-age=31536000, immutable",
+      "tls_verified": true
+    },
+    {
+      "path": "favicon.svg",
+      "sha256": "65f1a4fed91c0bbe18911c375ffb5c67bdf59c637437dcac5835b137fd492ef6",
+      "mime": "image/svg+xml",
+      "cache_control": "no-cache",
+      "tls_verified": true
+    },
+    {
+      "path": "fonts/MaterialSymbols-LICENSE.txt",
+      "sha256": "58d1e17ffe5109a7ae296caafcadfdbe6a7d176f0bc4ab01e12a689b0499d8bd",
+      "mime": "text/plain; charset=utf-8",
+      "cache_control": "no-cache",
+      "tls_verified": true
+    },
+    {
+      "path": "fonts/RobotoFlex-OFL.txt",
+      "sha256": "9cbaed04b20c853f99840efe5dc96956f6f6120ed83a0ade35f9281a2b63e5d0",
+      "mime": "text/plain; charset=utf-8",
+      "cache_control": "no-cache",
+      "tls_verified": true
+    },
+    {
+      "path": "fonts/material-symbols-rounded.woff2",
+      "sha256": "d467d3c2cfa96f9f6333a982edb4c676dd39878b8162f02e1e5644ce6206e246",
+      "mime": "font/woff2",
+      "cache_control": "no-cache",
+      "tls_verified": true
+    },
+    {
+      "path": "fonts/roboto-flex-latin.woff2",
+      "sha256": "43390bbbe1466fc2399dfbb8e523ae9dd5e33a83a145f07ec8df13b279f0ba98",
+      "mime": "font/woff2",
+      "cache_control": "no-cache",
+      "tls_verified": true
+    },
+    {
+      "path": "fonts/sources.json",
+      "sha256": "943cd9c491b3a5784d1fd3a9d5e80145f67f3932f25de37e646d3e9da198df52",
+      "mime": "application/json",
+      "cache_control": "no-cache",
+      "tls_verified": true
+    },
+    {
+      "path": "index.html",
+      "sha256": "2279e802dce3f595278131937652c9eec7edcc8f7dae47030e1c0f9f1e5c6c25",
+      "mime": "text/html; charset=utf-8",
+      "cache_control": "no-cache",
+      "tls_verified": true
+    }
+  ],
+  "container": "running healthy",
+  "gateway_sha256": "395e59078dc633b051879a5989ffc15cdd5eb816846b9d64450c714aa1619be2",
+  "git_homepage_status": 200
+}

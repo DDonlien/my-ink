@@ -1,0 +1,168 @@
+import { describe, expect, it } from 'vitest';
+import { compileDocument, parseStoryDocument } from '../src/core/document';
+import { StoryRunner } from '../src/core/runtime';
+import { sceneStructure, sequentialStructure, storyStructure } from '../src/graph/model';
+import { layoutStructure } from '../src/graph/layout';
+import { applyStructuralDrop, replaceBlock, structuralDrop } from '../src/graph/edits';
+import { manCatCase } from '../src/samples';
+
+const ink = (body: string, variables = '') => '# 顺序对白\n\n```ink\n' + variables + '\n=== opening ===\n# on: start\n' + body + '\n```\n';
+const conversation = ink('邻居：第一句。\n~ heard = true\n周渡：我先记下。\n邻居：还有一句。\n* [追问]\n    ~ selected = true\n    邻居：这是回答。\n    周渡：我会复核。\n    -> DONE\n* [离开]\n    周渡：再见。\n    -> DONE', 'VAR heard = false\nVAR selected = false');
+const manual = (source = conversation) => new StoryRunner(compileDocument(source), undefined, true, { autoExpandDialogue: false });
+const spoken = (runner: StoryRunner) => runner.transcript.filter(entry => entry.kind === 'dialogue' || entry.kind === 'narration').map(entry => entry.text);
+const next = (runner: StoryRunner) => runner.continueDialogue(runner.continuations[0].id);
+
+describe('player-driven sequential dialogue', () => {
+  it('stops at each output, defers later facts and choices, and records real continue clicks', () => {
+    const runner = manual();
+    expect(spoken(runner)).toEqual(['第一句。']);
+    expect(runner.world.heard).toBe(false);
+    expect(runner.choices).toHaveLength(0);
+    next(runner);
+    expect(spoken(runner)).toEqual(['第一句。', '我先记下。']);
+    expect(runner.world.heard).toBe(true);
+    expect(runner.choices).toHaveLength(0);
+    next(runner);
+    expect(spoken(runner)).toEqual(['第一句。', '我先记下。', '还有一句。']);
+    expect(runner.continuations).toHaveLength(0);
+    expect(runner.choices[0].choices.map(choice => choice.text)).toEqual(['追问', '离开']);
+    expect(runner.world.selected).toBe(false);
+    expect(runner.transcript.filter(entry => entry.kind === 'continue')).toHaveLength(2);
+    runner.choose(runner.choices[0].instanceId, 0);
+    expect(runner.world.selected).toBe(true);
+    expect(spoken(runner).at(-1)).toBe('这是回答。');
+    expect(spoken(runner)).not.toContain('我会复核。');
+  });
+  it('restores the exact paused continuation and preserves click history without replaying dialogue', () => {
+    const runner = manual(); next(runner);
+    const saved = runner.snapshot();
+    const restored = StoryRunner.restore(runner.document, saved);
+    expect(restored.autoExpandDialogue).toBe(false);
+    expect(spoken(restored)).toEqual(['第一句。', '我先记下。']);
+    expect(restored.continuations).toHaveLength(1);
+    next(restored);
+    expect(spoken(restored)).toEqual(['第一句。', '我先记下。', '还有一句。']);
+    expect(restored.transcript.filter(entry => entry.kind === 'continue')).toHaveLength(2);
+    expect(new Set(restored.transcript.map(entry => entry.id)).size).toBe(restored.transcript.length);
+    expect(saved.transcript).toHaveLength(3);
+  });
+  it('auto expansion reaches real choices without selecting them, and can return to manual mode', () => {
+    const runner = manual(); runner.setAutoExpandDialogue(true);
+    expect(spoken(runner)).toEqual(['第一句。', '我先记下。', '还有一句。']);
+    expect(runner.world.selected).toBe(false);
+    expect(runner.choices[0].choices).toHaveLength(2);
+    expect(runner.transcript.filter(entry => entry.kind === 'continue')).toHaveLength(0);
+    runner.setAutoExpandDialogue(false);
+    runner.choose(runner.choices[0].instanceId, 0);
+    expect(spoken(runner).at(-1)).toBe('这是回答。');
+    expect(runner.continuations).toHaveLength(1);
+    next(runner);
+    expect(spoken(runner).at(-1)).toBe('我会复核。');
+  });
+  it('does not start a later cat action before clicks or automatically finish its wait', () => {
+    const source = ink('周渡：先看通路。\n周渡：现在让它进去。\n>>> await npc.move actor=cat to=wall_niche duration=5m result=cat_path_result\n~ ledger_corner = true\n黑猫把账页边角拖了出来。\n周渡：现在复核边角。\n-> DONE', 'VAR cat_alive = true\nVAR cat_location = "apartment"\nVAR cat_state = "idle"\nVAR cat_path_result = ""\nVAR ledger_corner = false');
+    const runner = manual(source);
+    expect(runner.actions).toHaveLength(0);
+    next(runner);
+    expect(runner.actions).toHaveLength(0);
+    next(runner);
+    expect(runner.actions[0].status).toBe('running');
+    expect(runner.world.ledger_corner).toBe(false);
+    runner.setAutoExpandDialogue(true);
+    expect(runner.instances[0].status).toBe('waiting');
+    expect(runner.world.ledger_corner).toBe(false);
+    runner.setAutoExpandDialogue(false);
+    const restored = StoryRunner.restore(runner.document, runner.snapshot());
+    restored.advance(5 / 60);
+    expect(restored.actions[0].status).toBe('completed');
+    expect(restored.world.ledger_corner).toBe(true);
+    expect(spoken(restored).at(-1)).toBe('黑猫把账页边角拖了出来。');
+    expect(spoken(restored)).not.toContain('现在复核边角。');
+    next(restored);
+    expect(spoken(restored).at(-1)).toBe('现在复核边角。');
+  });
+  it('keeps independent dialogue cursors for concurrent events and restores both', () => {
+    const runner = manual(ink('周渡：主线第一句。\n周渡：主线第二句。\n-> DONE\n=== neighbor ===\n# on: question.neighbor\n# once: save\n邻居：旁线第一句。\n邻居：旁线第二句。\n-> DONE'));
+    runner.dispatch('question.neighbor');
+    expect(runner.continuations).toHaveLength(2);
+    const restored = StoryRunner.restore(runner.document, runner.snapshot());
+    next(restored);
+    expect(spoken(restored)).toContain('主线第二句。');
+    expect(spoken(restored)).not.toContain('旁线第二句。');
+    expect(restored.continuations).toHaveLength(1);
+    restored.setAutoExpandDialogue(true);
+    expect(spoken(restored)).toContain('旁线第二句。');
+    restored.dispatch('question.neighbor');
+    expect(spoken(restored).filter(text => text === '旁线第一句。')).toHaveLength(1);
+  });
+  it('treats Ink glue as one click and keeps speaker tags out of displayed graph text', () => {
+    const source = ink('邻居：前半句<>\n后半句。\n周渡：我明白了。 # speaker: 周渡\n* [追问]\n    回答。\n    -> DONE');
+    const runner = manual(source);
+    expect(spoken(runner)).toEqual(['前半句后半句。']);
+    next(runner);
+    expect(spoken(runner)).toEqual(['前半句后半句。', '我明白了。']);
+    expect(runner.choices[0].choices[0].text).toBe('追问');
+    const graph = storyStructure(parseStoryDocument(source));
+    expect(graph.blocks[0].sequence?.map(step => step.text)).toEqual(['邻居：前半句后半句。', '周渡：我明白了。']);
+    expect(graph.blocks.some(block => block.text.includes('speaker:'))).toBe(false);
+  });
+});
+
+describe('merged and split sequential graph views', () => {
+  const source = ink('邻居：先说一句。\n~ heard = true\n周渡：再答一句。\n* [追问]\n    邻居：回答甲。\n    -> DONE\n* [复核]\n    邻居：回答乙。\n    -> DONE', 'VAR heard = false');
+  it('places continue dividers inside a merged box and keeps the real options at its end', async () => {
+    const graph = storyStructure(parseStoryDocument(source));
+    const first = graph.blocks[0];
+    expect(first.sequence?.map(step => step.text)).toEqual(['邻居：先说一句。', '周渡：再答一句。']);
+    expect(first.ports.map(port => port.label)).toEqual(['追问', '复核']);
+    const geometry = (await layoutStructure(graph)).blocks[first.id];
+    expect(geometry.steps).toHaveLength(2);
+    expect(geometry.steps![0].separator).toBeUndefined();
+    expect(geometry.steps![1].separator).toBeLessThan(geometry.steps![1].top);
+    expect(geometry.ports[0].top).toBeGreaterThan(geometry.steps![1].top);
+    expect(sequentialStructure(graph, 'merged')).toBe(graph);
+  });
+  it('splits dialogue into connected boxes, preserving entry addresses and all choice routes', async () => {
+    const document = parseStoryDocument(source), original = storyStructure(document);
+    const split = sequentialStructure(original, 'split');
+    const first = split.blocks.find(block => block.id === 'opening')!;
+    const last = split.blocks.find(block => block.id === 'opening::step-1')!;
+    expect(first.address).toBe('opening');
+    expect(first.event).toBe('start');
+    expect(last.address).toBeUndefined();
+    expect(last.event).toBeUndefined();
+    expect(first.ports.map(port => port.label)).toEqual(['继续']);
+    expect(last.ports.map(port => port.label)).toEqual(['追问', '复核']);
+    expect(first.kind).toBe('dialogue');
+    expect(last.kind).toBe('dialogue');
+    expect(split.links.find(edge => edge.sequential)).toMatchObject({ source: first.id, target: last.id, kind: 'next' });
+    expect(split.links.filter(edge => edge.branch).every(edge => edge.source === last.id)).toBe(true);
+    expect(split.blocks).toHaveLength(original.blocks.length + 1);
+    expect(document.source).toBe(source);
+    const layout = await layoutStructure(split);
+    for (const edge of split.links) expect(layout.blocks[edge.target].x).toBeGreaterThan(layout.blocks[edge.source].x + layout.blocks[edge.source].width);
+    expect(await layoutStructure(sequentialStructure(storyStructure(parseStoryDocument(source)), 'split'))).toEqual(layout);
+  });
+  it('edits a split line without deleting intervening logic, sibling dialogue or true options', () => {
+    const split = sequentialStructure(storyStructure(parseStoryDocument(source)), 'split');
+    const line = split.blocks.find(block => block.text === '周渡：再答一句。')!;
+    expect(line.editable).toBe(true);
+    const nextSource = replaceBlock(source, line.range!, '周渡：我会复核。');
+    expect(nextSource).toBe(source.replace('周渡：再答一句。', '周渡：我会复核。'));
+    expect(nextSource).toContain('~ heard = true');
+    const inline = ink('VAR score = 3\n周渡：{score > 1:足够|不够}了。\n-> DONE');
+    expect(sequentialStructure(storyStructure(parseStoryDocument(inline)), 'split').blocks.filter(block => ['足够', '不够', '了。'].includes(block.text)).every(block => !block.editable)).toBe(true);
+  });
+  it('still swaps complete real branches in split mode and forbids dragging a continue link as a choice', () => {
+    const graph = sequentialStructure(storyStructure(parseStoryDocument(manCatCase)), 'split');
+    const scene = sceneStructure(graph, 'neighbor');
+    const branches = scene.links.filter(edge => edge.branch && graph.blocks.find(block => block.id === edge.source)?.knot === 'neighbor_testimony');
+    const plan = structuralDrop(graph, scene, branches[0].target, branches[1].target)!;
+    expect(plan.kind).toBe('order');
+    const nextSource = applyStructuralDrop(manCatCase, plan);
+    expect(nextSource.indexOf('* [复核：')).toBeLessThan(nextSource.indexOf('* [追问：'));
+    compileDocument(nextSource);
+    expect(structuralDrop(graph, scene, 'neighbor_testimony::step-1', branches[0].target)).toBeUndefined();
+    expect(nextSource).not.toContain('layout:');
+  });
+});
