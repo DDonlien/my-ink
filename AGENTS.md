@@ -43,6 +43,7 @@ template-version: "v2.0.1-261023-173015"
 1. 按目标文件确认版本管理归属。一个项目可以同时使用 Git、Perforce 或更多系统；不能因发现 `.git` 就把所有文件当成 Git 管理，也不能因使用 Perforce 就忽略 Git 状态。同一文件受多个系统管理时，分别检查相关约束。
 2. 检查限于当前工作副本、本任务目标路径及必要依赖，不递归检查其他 worktree、参考仓库或其他项目，不扫描整个 Perforce 服务端。遇到归属不明、冲突或锁定时先定位相关文件。
 3. Git 只做必要的本地检查：确认仓库、当前分支 / worktree，以及目标文件的工作区和暂存改动；保留用户和其他任务的改动。普通任务不自动 fetch、pull、merge、rebase、切换分支或同步远端；确需远端基准时说明需要，并按用户授权执行。
+   同步边界：仅处理任务规定的版本管理对象与资产范围；混合 Git / Perforce 不联动无关系统。Git 仅在任务需要且授权范围内同步当前工作分支与其已配置 upstream，不顺带 fetch 全部分支，不切换、同步或合并 main / mainline 或其他分支，未配置 upstream 时不猜测。Git 提交整合是分支级操作，不按单文件执行 pull；同步若会涉及任务范围外内容或本地未提交改动，先报告影响并按实际需要确认，不擅自覆盖、stash 或 reset。用户另行明确要求跨分支同步时按该授权执行；普通任务不因此新增先 pull / fetch 的前置步骤。
 4. 未经明确授权，不创建 branch 或 worktree，不切换当前 checkout 的分支，不移动、删除或重定位 worktree。用户指定目标名称、feature 或目录不等于授权创建；已有目标可在用户指定范围内通过进入其现有目录使用，不存在时先说明。
 5. 不擅自执行 `reset --hard`、`clean`、`restore`、覆盖式 checkout、强删分支或其他覆盖 / 回滚操作。结构示例只是布局说明，不授权创建、迁移或重命名实际工作区。
 6. 只有目标文件涉及 Perforce 时，才确认对应连接、用户、client、Root / Stream 与文件映射，并对目标路径检查 opened、锁定和 pending change。未确认归属前不修改文件，也不重归类其他任务已 opened 的文件。
@@ -53,10 +54,10 @@ template-version: "v2.0.1-261023-173015"
 
 ## Issue 维护标准
 
-1. 活动需求、任务、检查与交接统一写入当前工作副本的 `issue/`。标准路径为 `project-name/worktree(如有)/issue/issue-issueid-issuetype-issuename-versioncontrolid.md`；没有 worktree 时为 `project-name/issue/...`。`worktree(如有)` 表示已有实际工作区，不要求目录字面名为 `worktree`。
-2. 每个可执行 Issue 有稳定 `issueid`；排序、移动、改名或状态变化不改变 ID。迁移保留旧稳定 ID，拆分时保留原 ID 并关联新增子 ID。已有 ID 的原始大小写保留。
-3. 文件名中 `issuetype` 使用下节 16 类代码之一，`issuename` 使用简短、可读的英文连字符名称。`versioncontrolid` 的含义尚待用户定义，现阶段明确保留字面占位 `versioncontrolid`，不猜测为 commit、branch、Perforce change 或其他版本标识，也不为填它执行版本管理操作。
-4. `issue/issue-issueid-issuetype-issuename-versioncontrolid.md` 是唯一模板文件，不是活动任务。复制后填写真实 ID、类型和名称；正文只保留任务需要的段落，不为格式补空内容。
+1. 活动需求、任务、检查与交接统一写入当前工作副本的 `issue/`。标准路径为 `project-name/worktree(如有)/issue/issue_任务描述[_实际版本编号].md`；没有 worktree 时为 `project-name/issue/...`。`worktree(如有)` 表示已有实际工作区，不要求目录字面名为 `worktree`。
+2. 旧稳定 ID、类型和拆分关联保留在现有 properties，不进入文件名；改名不重编号或丢失追溯信息。不为命名建立新的编号体系。
+3. 命名只用具体任务描述及已核实的实际实施版本；类型留在 properties。具体描述、任务拆分、版本缺失及多提交处理见下文“Issue 文件命名与版本关联”。
+4. `issue/issue_template.md` 是唯一模板文件，不是活动任务。复制后填写具体任务和所需 properties；正文只保留任务需要的段落，不为格式补空内容。
 5. 开始实现前先搜索已有匹配 Issue。用户提出的核心行为、数据、界面、内容或可感知工程能力应落入最具体的 Issue；一次性解释或咨询不强制创建。归入已有任务或记录已授权的新任务不需要额外确认，也不意味着授权创建分支或 worktree。
 6. 正文维护当前事实：目标、范围、优先级、关联 ID、实现状态、检查结果、用户验收和当前阻塞。使用自然完整的句子、Markdown 标题、稳定 ID、少量标签和缩进 checkbox，避免复杂表格与不必要的 YAML。
 7. `## Comments` 只追加，记录用户补充、决策、行动、检查结果、交接和状态变化，附时间与作者。正文随最新结论更新；不要通过重写旧 Comment 抹掉历史，也不把已过时结论留作正文现状。纠正旧记录时追加说明，不回显敏感输入。
@@ -65,6 +66,15 @@ template-version: "v2.0.1-261023-173015"
 10. 具体测试是所属功能 Issue 的子项，可沿用 `<parent>-test` ID。QA 仍是有效类型；不要只为宣布阶段完成而制造独立 QA、验证或完成定义 Issue。Phase、工作线和父子关系按实际需要记录，不再依赖 branch 标题组织任务。
 11. 更新 Issue 时精准修改相关正文并追加 Comments，不为整理格式批量改写无关历史、删除或重编号既有 ID。每完成可交接的小步骤就更新当前状态；不额外维护一套平行需求文件或执行日志。
 12. 旧活动 `REQUIREMENTS.md` 与 `agent-log/` 在任务和有效证据迁入 Issue 后移除，不维护两套工作制度。保留旧 ID / 来源，完整历史可由已核实 Git 历史追溯；未跟踪或未提交的独有内容必须先保全到本次版本化来源副本。明确停用的模板档案继续只作历史，不把其中示例迁成真实任务。
+
+## Issue 文件命名与版本关联
+
+1. 活动文件采用 `issue_任务描述[_实际版本编号].md`。任务描述遵循源任务原语言，中文如实、连贯记录，不翻译成英语；英文任务描述内部使用连字符。描述具体对象与动作 / 目标，不能只写 search、storage 等主题桶；文件名不放类型或旧 A-001 等编号。类型及旧稳定 ID 保留在现有 properties，类型继续使用下节 16 类含义。
+2. 同一文件混装多个可独立实施 / 交付的目标时，按实际任务拆分并保留原 ID、来源、历史与真实状态。属于同一目标的实现细节、依赖和验收子项留在该任务内，不机械地逐 checkbox、逐日志创建文件。语义重名时用具体对象、范围或动作消歧，不恢复无意义编号。
+3. 实际版本必须关联该任务本身的实现：Git 使用可唯一解析的实际实施提交短 hash；Perforce 使用最终 submitted changelist 数字。不能拿当前 HEAD、需求快照、文档迁移提交或 pending change 冒充业务实现版本；文档任务本身则按其实际文档变更追溯。
+4. 尚未提交的任务或无法核实历史实施版本时，省略整个版本后缀，在现有 property 明确“尚无对应提交”或“未核实”及原因。不使用字面占位词 versioncontrolid，不为补后缀擅自提交、fetch、切分支或扩大检查范围。
+5. 一项任务对应多个真实提交时，可在 property 保存列表。文件名应取哪个版本若没有明确依据，先报告待定并保留无版本后缀，不自造范围、拼接 hash 或其他复杂格式。文件自己的记录提交不自动等于业务实现提交；不为写入自身 hash 连续追加提交或改写历史。
+6. `issue/issue_template.md` 保持明确模板身份，不填假提交 ID。正文维护当前事实，历史 Comments 仍只追加；命名修正不改变实现、检查和用户验收的真实完成度。
 
 ## Issue 类型
 
@@ -95,13 +105,12 @@ template-version: "v2.0.1-261023-173015"
    ```text
    project-name/
      issue/                     # 不使用 worktree 时
-       issue-issueid-issuetype-issuename-versioncontrolid.md
-
+       issue_任务描述[_实际版本编号].md
    project-name/
      existing-workspace/        # 使用 worktree 时，名称遵循现有约定
        AGENTS.md
        issue/
-         issue-issueid-issuetype-issuename-versioncontrolid.md
+         issue_任务描述[_实际版本编号].md
        <deliverable>/
    ```
 4. 初始化项目时选择 App 或 Game 子模板，按实际需要复制，包含适用的隐藏配置；不带入模板仓库的 `.git`、历史档案或个人 IDE 配置，不误删项目自身的 Git / CI 配置。初始化不隐含创建分支、worktree 或启用新的版本管理系统。
@@ -144,5 +153,5 @@ template-version: "v2.0.1-261023-173015"
 <!-- local-agent-template-rollout:v2.0.1-261023-173015 -->
 > 通用规则来源于本地 `DDonlien/agent-template` `v2.0.1-261023-173015`。项目自己的范围、命令和技术契约继续有效；旧模板中要求 REQUIREMENTS / agent-log 双写、例行远端同步与提交的通用制度已停用。
 >
-> 项目任务以当前工作副本根 `issue/` 为唯一工作入口，正文维护当前事实，Comments 追加历史。旧工作文档在有可追溯迁移映射和 Git 历史 / 版本化来源副本后移除；未把历史日志机械创建为新任务。`versioncontrolid` 仍为未定义占位。
+> 项目任务以当前工作副本根 `issue/` 为唯一工作入口，正文维护当前事实，Comments 追加历史。旧工作文档在有可追溯迁移映射和 Git 历史 / 版本化来源副本后移除；未把历史日志机械创建为新任务。实际实施版本只在核实后填写；尚无提交或未核实则省略文件名后缀，并在 property 说明。
 <!-- /local-agent-template-rollout -->
