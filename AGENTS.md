@@ -1,7 +1,7 @@
 ---
 target-repo-type: app
 language: zh-CN
-template-version: "v2.0.1-261023-173015"
+template-version: "v2.0.3-261024-162917"
 ---
 
 # 通用规则
@@ -54,27 +54,27 @@ template-version: "v2.0.1-261023-173015"
 
 ## Issue 维护标准
 
-1. 活动需求、任务、检查与交接统一写入当前工作副本的 `issue/`。标准路径为 `project-name/worktree(如有)/issue/issue_任务描述[_实际版本编号].md`；没有 worktree 时为 `project-name/issue/...`。`worktree(如有)` 表示已有实际工作区，不要求目录字面名为 `worktree`。
-2. 旧稳定 ID、类型和拆分关联保留在现有 properties，不进入文件名；改名不重编号或丢失追溯信息。不为命名建立新的编号体系。
-3. 命名只用具体任务描述及已核实的实际实施版本；类型留在 properties。具体描述、任务拆分、版本缺失及多提交处理见下文“Issue 文件命名与版本关联”。
-4. `issue/issue_template.md` 是唯一模板文件，不是活动任务。复制后填写具体任务和所需 properties；正文只保留任务需要的段落，不为格式补空内容。
+1. 活动需求、任务、检查与交接统一写入当前工作副本的 `issue/`。标准路径为 `project-name/worktree(如有)/issue/issue_任务描述.md`；没有 worktree 时为 `project-name/issue/...`。`worktree(如有)` 表示已有实际工作区，不要求目录字面名为 `worktree`。
+2. 属性统一使用兼容 Obsidian 的 YAML frontmatter，可在模板默认属性上扩展。旧稳定 ID、类型和拆分关联保留在属性中，不进入文件名；改名不重编号或丢失追溯信息，不为命名建立新的编号体系。
+3. 文件名只用原语言的具体任务描述；类型只在 frontmatter 中记录，不加任何版本编号后缀。具体命名与版本记录见下文“Issue 文件命名与版本关联”。
+4. `issue/issue_template.md` 是唯一模板文件，`type: template` 表示模板身份。实际 Issue 填写对应类型与属性；正文仅有 `# Description` 和 `# Comments` 两个一级标题，不为格式补空内容。
 5. 开始实现前先搜索已有匹配 Issue。用户提出的核心行为、数据、界面、内容或可感知工程能力应落入最具体的 Issue；一次性解释或咨询不强制创建。归入已有任务或记录已授权的新任务不需要额外确认，也不意味着授权创建分支或 worktree。
-6. 正文维护当前事实：目标、范围、优先级、关联 ID、实现状态、检查结果、用户验收和当前阻塞。使用自然完整的句子、Markdown 标题、稳定 ID、少量标签和缩进 checkbox，避免复杂表格与不必要的 YAML。
-7. `## Comments` 只追加，记录用户补充、决策、行动、检查结果、交接和状态变化，附时间与作者。正文随最新结论更新；不要通过重写旧 Comment 抹掉历史，也不把已过时结论留作正文现状。纠正旧记录时追加说明，不回显敏感输入。
+6. `Description` 维护具体对象、目标行为、范围、当前事实与阻塞；属性记在 frontmatter。可使用 Markdown 原生语法、子标题、列表、checkbox 和行内图片；子分组只作为 Description 内容渲染，不新增 myIssue 专用分组。实现、检查与用户验收按实际需要表达。
+7. `# Comments` 只追加。每条 Comment 用二级标题 `## YYYYMMDD-HHMMSS_Name_Model-Detail`，人类记录省略 Model-Detail；AI 的 Name 是实际执行 Agent，模型详情使用 Train-Case。每次任务执行完成后记录，标题时间为实际记录时间；涉及执行对话时在该条最后一行附标准会话链接。Git commit hash / P4 changelist 记在对应 Comment 内容里，同一 Issue 可涉及多个 change；行内图片使用 `issue/attachment`。Description 随最新结论更新，不通过重写旧 Comment 抹掉历史，不回显敏感输入。历史时间、具体 Agent、模型或原会话无法追溯时保留原始信息并说明缺失，不补造；每条实际执行 Comment 末尾使用有来源依据的对应会话深度链接，不照抄模板示例，也不把文档迁移会话冒充历史业务执行会话。历史时间、具体 Agent、模型或原会话无法追溯时保留原始信息并说明缺失，不补造；每条实际执行 Comment 末尾使用有来源依据的对应会话深度链接，不照抄模板示例，也不把文档迁移会话冒充历史业务执行会话。
 8. `- [ ]` 为未完成，`- [x]` 仅表示该条明确范围已完成；实现、检查、用户验收分别列项。部分子项完成不能勾完父项；待用户验收时应明确保留该状态，不因实现或编译通过而标为整项完成。
 9. 阻塞、延后、取消使用 `#blocked`、`#deferred`、`#cut` 并写清原因；取消条目保留，不静默删除。未执行的检查保持未完成，确实不适用时说明理由。
 10. 具体测试是所属功能 Issue 的子项，可沿用 `<parent>-test` ID。QA 仍是有效类型；不要只为宣布阶段完成而制造独立 QA、验证或完成定义 Issue。Phase、工作线和父子关系按实际需要记录，不再依赖 branch 标题组织任务。
-11. 更新 Issue 时精准修改相关正文并追加 Comments，不为整理格式批量改写无关历史、删除或重编号既有 ID。每完成可交接的小步骤就更新当前状态；不额外维护一套平行需求文件或执行日志。
+11. 更新 Issue 时精准修改相关 Description、属性和对应 Comments，不为整理格式批量改写无关历史、删除或重编号既有 ID；不额外维护一套平行需求文件或执行日志。
 12. 旧活动 `REQUIREMENTS.md` 与 `agent-log/` 在任务和有效证据迁入 Issue 后移除，不维护两套工作制度。保留旧 ID / 来源，完整历史可由已核实 Git 历史追溯；未跟踪或未提交的独有内容必须先保全到本次版本化来源副本。明确停用的模板档案继续只作历史，不把其中示例迁成真实任务。
 
 ## Issue 文件命名与版本关联
 
-1. 活动文件采用 `issue_任务描述[_实际版本编号].md`。任务描述遵循源任务原语言，中文如实、连贯记录，不翻译成英语；英文任务描述内部使用连字符。描述具体对象与动作 / 目标，不能只写 search、storage 等主题桶；文件名不放类型或旧 A-001 等编号。类型及旧稳定 ID 保留在现有 properties，类型继续使用下节 16 类含义。
+1. 活动文件采用 `issue_任务描述.md`，不带任何版本编号后缀。任务描述按源语言如实、连贯记录，中文不翻译，英文词用连字符；说明具体对象与动作 / 目标，不能只写 search、storage 等主题桶。文件名不放类型或旧 A-001 等编号；类型和旧稳定 ID 只留在 frontmatter，类型沿用下节 16 类含义。
 2. 同一文件混装多个可独立实施 / 交付的目标时，按实际任务拆分并保留原 ID、来源、历史与真实状态。属于同一目标的实现细节、依赖和验收子项留在该任务内，不机械地逐 checkbox、逐日志创建文件。语义重名时用具体对象、范围或动作消歧，不恢复无意义编号。
-3. 实际版本必须关联该任务本身的实现：Git 使用可唯一解析的实际实施提交短 hash；Perforce 使用最终 submitted changelist 数字。不能拿当前 HEAD、需求快照、文档迁移提交或 pending change 冒充业务实现版本；文档任务本身则按其实际文档变更追溯。
-4. 尚未提交的任务或无法核实历史实施版本时，省略整个版本后缀，在现有 property 明确“尚无对应提交”或“未核实”及原因。不使用字面占位词 versioncontrolid，不为补后缀擅自提交、fetch、切分支或扩大检查范围。
-5. 一项任务对应多个真实提交时，可在 property 保存列表。文件名应取哪个版本若没有明确依据，先报告待定并保留无版本后缀，不自造范围、拼接 hash 或其他复杂格式。文件自己的记录提交不自动等于业务实现提交；不为写入自身 hash 连续追加提交或改写历史。
-6. `issue/issue_template.md` 保持明确模板身份，不填假提交 ID。正文维护当前事实，历史 Comments 仍只追加；命名修正不改变实现、检查和用户验收的真实完成度。
+3. 对应执行涉及的 Git commit hash 或 P4 changelist 记录在该条 Comment 内容里，可涉及多个 change，不设 `controlled-version` 等全局编号属性，也不写入文件名。只记录有依据的关联，不拿当前 HEAD、需求快照或文档整理提交冒充业务实施提交。
+4. `recorded-version` 是可选属性，记录实际与该 Issue 有关的内容发布版本，不是 Git / P4 编号，不保证存在，也不写入文件名。
+5. 没有相关 Git / P4 编号或内容发布版本时无需填占位；不为补值额外提交、fetch、切分支或扩大检查范围，不为记录文件自身 hash 连续提交或改写历史。
+6. `issue/issue_template.md` 保持模板文件名与模板身份；实际 Issue 使用模板的 frontmatter、两个一级正文标题及 Comment 二级标题格式。命名与记录方式调整不改变实现、检查和用户验收的真实完成度。
 
 ## Issue 类型
 
@@ -105,12 +105,12 @@ template-version: "v2.0.1-261023-173015"
    ```text
    project-name/
      issue/                     # 不使用 worktree 时
-       issue_任务描述[_实际版本编号].md
+       issue_任务描述.md
    project-name/
      existing-workspace/        # 使用 worktree 时，名称遵循现有约定
        AGENTS.md
        issue/
-         issue_任务描述[_实际版本编号].md
+         issue_任务描述.md
        <deliverable>/
    ```
 4. 初始化项目时选择 App 或 Game 子模板，按实际需要复制，包含适用的隐藏配置；不带入模板仓库的 `.git`、历史档案或个人 IDE 配置，不误删项目自身的 Git / CI 配置。初始化不隐含创建分支、worktree 或启用新的版本管理系统。
@@ -153,5 +153,5 @@ template-version: "v2.0.1-261023-173015"
 <!-- local-agent-template-rollout:v2.0.1-261023-173015 -->
 > 通用规则来源于本地 `DDonlien/agent-template` `v2.0.1-261023-173015`。项目自己的范围、命令和技术契约继续有效；旧模板中要求 REQUIREMENTS / agent-log 双写、例行远端同步与提交的通用制度已停用。
 >
-> 项目任务以当前工作副本根 `issue/` 为唯一工作入口，正文维护当前事实，Comments 追加历史。旧工作文档在有可追溯迁移映射和 Git 历史 / 版本化来源副本后移除；未把历史日志机械创建为新任务。实际实施版本只在核实后填写；尚无提交或未核实则省略文件名后缀，并在 property 说明。
+> 项目任务以当前工作副本根 `issue/` 为唯一工作入口，正文维护当前事实，Comments 追加历史。旧工作文档在有可追溯迁移映射和 Git 历史 / 版本化来源副本后移除；未把历史日志机械创建为新任务。Issue 使用 Obsidian YAML frontmatter 和 Description / Comments 两个一级标题；文件名仅为 issue_原语言任务描述.md。真实 Git / P4 编号写入对应 Comment，recorded-version 仅记录可选内容发布版本。
 <!-- /local-agent-template-rollout -->

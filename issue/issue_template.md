@@ -1,23 +1,46 @@
-# Issue 标题（模板）
+---
+type: template
+status: active
+importance: p0
+emergency: p0
+updated-time: 2026-10-24T01:01:00
+created-time: 2026-10-24T01:01:00
+recorded-version:
+tags:
+---
+# Description
 
-> 本文件仅演示格式，不是活动任务。复制时采用 `issue_任务描述.md`；仅在核实对应任务的真实实施版本后才补后缀。文件名不放类型或旧编号。
+每个 issue.md 文档正文中包含、且仅包含 Description 和 Comments 两个部分的一级标题
 
-- 类型：`DOC|PM|UX|UI|FE|BE|API|DB|DATA|CONTENT|QA|OPS|CI|SEC|ARCH|TOOL`（写入现有 properties）。
-- 状态：待处理 / 实现中 / 待检查 / 待用户验收 / 完成，以实际事实为准。
-- 优先级、范围、依赖、旧 ID 与来源：只保留当前任务需要的字段。
-- 版本管理：按实际文件归属填写 Git / Perforce / 其他系统。
-- 实施版本：尚无对应提交 / 未核实 / 已核实。只有已核实时记录真实 Git 提交 hash 或 submitted changelist 编号；多个提交可保存在 property 列表。
+活动文件使用 `issue_任务描述.md`：按原语言连贯记录，中文不翻译，英文词用连字符；类型只记在属性中，文件名不带版本编号。`issue_template.md` 保持模板文件名。
 
-## 目标与当前事实
+Description 内描述具体对象、要实现的行为、范围与当前阻塞，不使用空泛主题名代替任务描述。如果有必要可以用任何 md 原生支持的语法类型，但不被 myIssue 处理额外的分组，只是正确的作为 Description 内容渲染。
 
-描述具体对象、要实现的行为、范围与当前阻塞，不使用空泛主题名代替任务描述。
+可以在行内添加图片，按照规范会保存到 issue/attachment 文件夹里
 
-## 实现、检查与用户验收
+每一个 issue 文件本身需要有完整的、兼容 obisidian 的属性内容，去记录所有属性
 
-- [ ] 实现具体目标。
-- [ ] 执行与当前修改相称的必要检查，并记录实际结果。
-- [ ] 需要用户验收的部分保持待确认；不以实现或编译通过代替。
+我们预定义了一些属性条目，但自然的，像 obsidian 一样，这些内容可以添加；template 中使用的这些就是默认的属性
 
-## Comments
+`recorded-version` 是可选属性，记录实际与该 issue 有关的内容发布版本，不一定存在；它不是 Git / P4 编号。
 
-按时间追加用户补充、决策、行动与检查证据，不重写旧历史。正文随最新确认更新。
+# Comments
+
+## YYYYMMDD-HHMMSS_Name_Model-Detail
+
+每一条 comment 在记录时用二级标题记录，标题固定为上述格式，其回复时间在标题里已经自然记录。
+
+自然，如果是人类用户，则不存在 Model-Detail 的部分；
+
+Name 在 AI 自行填写的情况下应该被记录为具体执行该任务的 AGENT，比如 Codex、DSH，Model-Detail 则类似于 GPT-6.1-Sol-Max-Fast。这里考虑到阅读的便利性，采用了 Train-Case 而不是我们常用的 kebab-case。
+
+对于 AI 来说，Comments 应该在每次任务执行完成后填写，填写时间 = 记录的时间。
+
+对应执行涉及的 Git commit hash 或 P4 changelist 记录在该条 Comment 内容里；一条 issue 可以涉及多个 change，不限制为一个全局值。
+
+和 Description 一样，如有必要，直接在行内添加图片。
+
+对于涉及具体执行的 AGENT 对话的内容，应该在最后一行附上对应的 link，至少在对应版本的 myIssue 插件中，这个 link 应该点击后可以转跳到对应对话。这个 link 建议使用对应 agent 的标准格式，比如 ChatGPT desktop 就有内置的对话格式点击可以直接转跳到对话，其他 HARNESS 框架（如 DSH）也是同理。
+
+每一段具体的 comments 最后应该记录深度链接(假设 chat 的影响会录入 issue，如果会，改链接即可)，形如：
+[对话内容](codex://threads/01a10755-9102-7291-8df2-539c0de8d4be)
