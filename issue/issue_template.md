@@ -49,7 +49,7 @@ Description 内描述具体对象、要实现的行为、范围与当前阻塞�
 
 自然，如果是人类用户，则不存在 Model-Detail 的部分；
 
-Name 在 AI 自行填写的情况下应该被记录为具体执行该任务的 AGENT，比如 Codex、DSH，Model-Detail 则类似于 GPT-6.1-Sol-Max-Fast。这里考虑到阅读的便利性，采用了 Train-Case 而不是我们常用的 kebab-case。
+Name 在 AI 自行填写时记录实际执行 Agent，比如 Codex、DSH。Model-Detail 必须完整记录五个维度：厂牌-确切版本-规模/型号档位-推理级别-是否选择加速模式，例如 `GPT-6.1-SOL-MAX-FAST`。示例只是格式，不是本次真实参数；不能用 `GPT`、`GPT-6` 或模型系列名代替确切版本。加速字段只按可验证的选择记录为 `FAST` 或 `NONFAST`（未选择加速）；不可核实时写 `UNKNOWN`，不把响应速度、订阅档位、服务优先级当作加速选择。其他任一维度未知也必须写 `UNKNOWN` 并说明不可核实，不用当前设置猜填历史执行参数。人工 Comment 仍省略 Model-Detail。
 
 对于 AI 来说，Comments 应该在每次任务执行完成后填写，填写时间 = 记录的时间。
 

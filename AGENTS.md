@@ -1,7 +1,7 @@
 ---
 target-repo-type: app
 language: zh-CN
-template-version: "v2.0.4-261028-055510"
+template-version: "v2.0.5-261028-071052"
 ---
 
 # 通用规则
@@ -70,7 +70,7 @@ template-version: "v2.0.4-261028-055510"
 4. `issue/issue_template.md` 是唯一模板文件，`type: template` 表示模板身份。新版默认属性为 `uid`、`type`、`status`、`importance`、`emergency`、`updated-time`、`created-time`、`start-time`、`closed-time`、`created-version`、`closed-version`、`estimated-workhour`、`actual-workhour`、`commit-related`、`tags`。正文仅有 `# Description` 和 `# Comments` 两个一级标题，不为格式补空内容；已有扩展属性继续保留。
 5. 开始实现前先搜索已有匹配 Issue。用户提出的核心行为、数据、界面、内容或可感知工程能力应落入最具体的 Issue；一次性解释或咨询不强制创建。归入已有任务或记录已授权的新任务不需要额外确认，也不意味着授权创建分支或 worktree。
 6. `Description` 维护具体对象、目标行为、范围、当前事实与阻塞；属性记在 frontmatter。可使用 Markdown 原生语法、子标题、列表、checkbox 和行内图片；子分组只作为 Description 内容渲染，不新增 myIssue 专用分组。实现、检查与用户验收按实际需要表达。
-7. `# Comments` 只追加。每条 Comment 用二级标题 `## YYYYMMDD-HHMMSS_Name_Model-Detail`，人类记录省略 Model-Detail；AI 的 Name 是实际执行 Agent，模型详情使用 Train-Case。每次任务执行完成后记录，标题时间为实际记录时间。涉及提交时，在该条开头用 Obsidian 引用格式 `>` 记录真实 Git commit hash / P4 changelist，并汇总到 `commit-related` 列表；同一 Issue 可涉及多个 change。该条末尾用 `>` 引用有来源依据的真实会话深度链接。行内图片使用 `issue/attachment`。Description 维护当前事实，历史 Comment 与来源保留；时间、Agent、模型、提交或原会话无法追溯时说明缺失，不补造，不照抄模板示例，也不把文档迁移对话冒充业务执行对话。
+7. `# Comments` 只追加。每条 Comment 用二级标题 `## YYYYMMDD-HHMMSS_Name_Model-Detail`，人类记录省略 Model-Detail；AI 的 Name 是实际执行 Agent；Model-Detail 必须按“厂牌-确切版本-规模/型号档位-推理级别-是否选择加速模式”记录五个维度，例如 `GPT-6.1-SOL-MAX-FAST`，不能用 `GPT`、`GPT-6` 或系列名代替确切版本。仅在有可验证执行元信息时填写；加速维度明确用 `FAST`、`NONFAST`（已核实未选择加速）或 `UNKNOWN`，不得把响应速度、订阅档位、服务优先级当作选择了加速。每个未知维度写 `UNKNOWN` 并在正文说明不可核实，不以当前配置回填历史参数。每次任务执行完成后记录，标题时间为实际记录时间。涉及提交时，在该条开头用 Obsidian 引用格式 `>` 记录真实 Git commit hash / P4 changelist，并汇总到 `commit-related` 列表；同一 Issue 可涉及多个 change。该条末尾用 `>` 引用有来源依据的真实会话深度链接。行内图片使用 `issue/attachment`。Description 维护当前事实，历史 Comment 与来源保留；时间、Agent、模型、提交或原会话无法追溯时说明缺失，不补造，不照抄模板示例，也不把文档迁移对话冒充业务执行对话。
 8. `- [ ]` 为未完成，`- [x]` 仅表示该条明确范围已完成；实现、检查、用户验收分别列项。部分子项完成不能勾完父项；待用户验收时应明确保留该状态，不因实现或编译通过而标为整项完成。
 9. 阻塞、延后、取消使用 `#blocked`、`#deferred`、`#cut` 并写清原因；取消条目保留，不静默删除。未执行的检查保持未完成，确实不适用时说明理由。
 10. 具体测试是所属功能 Issue 的子项，可沿用 `<parent>-test` ID。QA 仍是有效类型；不要只为宣布阶段完成而制造独立 QA、验证或完成定义 Issue。Phase、工作线和父子关系按实际需要记录，不再依赖 branch 标题组织任务。
