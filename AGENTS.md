@@ -27,6 +27,14 @@ template-version: "v2.0.6-261028-082046"
 7. 只有明显逻辑冲突、关键歧义或权限不足才暂停受影响步骤，说明具体对象、差异和所需信息；继续独立可做部分。普通匹配、字段同步和任务层级判断不反复确认。无法读取最新权威记录时，不凭旧缓存猜测依赖它的需求。
 8. 本条不绕过平台权限或扩大外部操作授权；仅处理当前任务及明确关联记录。未完成的同步如实说明，不能把已改本地 Issue、只读查询或准备工作说成外部同步成功。
 
+## 执行人与平台身份
+
+1. AI 代表用户实际执行任务，且已在对应 Issue 记录时，登记本次执行用户。只查看、规划拆解、代建未开工任务或同步字段，不据此认领这些功能；规划、文档维护本身是实际任务时，在其对应 Issue 登记，不批量认领整张待办表。
+2. 本地 Issue 的 `assignees` 使用账号列表，`created-by`、`updated-by` 使用单个账号。账号取自当前仓库对应 GitHub / Gitea 平台已核实的用户，以 `<host>/<login>` 记录，避免跨站同名；不以组织名、远端仓库所有者、`git user.name`、飞书显示名或 AI 名称冒充平台用户。新建 Issue 填写有依据的创建人，实际更新时填写修改人；执行人按已确认的平台身份去重并追加，保留其他执行人。已有创建人不因后续执行而更换；历史身份仅在能确认同一账号时规范表示，缺少依据不回填当前用户。实际 Agent 与模型仍记录在 Comments。
+3. Issue 已绑定飞书任务时，先读取该记录当前“执行人”，把经过核实的对应飞书用户追加进去：保留全部已有成员与顺序，仅新增缺少的用户，不把执行人数组替换为当前用户一人。写后读回确认；遇到并发新增成员时重新合并。仅追加成功或已存在才记为已同步。字段容量、权限或身份映射不支持追加时，保留原值、记录具体待处理原因，继续独立工作。
+4. GitHub / Gitea 账号与飞书用户通过已验证的当前服务身份或项目明确映射对应；同名、组织归属和历史记录操作者本身不足以证明是同一人。飞书“创建人/修改人”继续使用只读的内置 `created_by` / `updated_by`，不手动伪造，也不将其回填为本地 Issue 的历史作者。本地人员使用平台账号，飞书“执行人”使用飞书用户 ID，各自保留正确身份域。
+5. `assignees: []` 纳入 Issue 标准模板，新增人员属性放在 `tags` 之前；保留已有属性、UID、记录 ID、人工分工与全部历史。本规范不要求新建飞书表、恢复已删除字段、启用原生 GitHub/Gitea Issue 或批量改写历史人员。没有外部绑定时只维护本地 Issue；确需绑定而暂时不能同步时如实记录待处理。
+
 ## 代码与改动范围
 
 1. 只实现当前问题所需的最小改动，遵循现有技术栈、架构、目录和命名，优先复用已有机制。不添加推测性功能、预留扩展点、无需求的兼容分支或额外状态来源。
@@ -78,7 +86,7 @@ template-version: "v2.0.6-261028-082046"
 1. 本地活动 Issue 记录写入当前工作副本的 `issue/`；是否需要 Issue 按“任务分类与追踪协作”判断。项目明确配置的外部 tracker 按其既有分工维护，并与 Issue 双向关联。标准路径为 `project-name/worktree(如有)/issue/issue_任务描述.md`；没有 worktree 时为 `project-name/issue/...`。`worktree(如有)` 表示已有实际工作区，不要求目录字面名为 `worktree`。
 2. 属性统一使用兼容 Obsidian 的 YAML frontmatter，可在模板默认属性上扩展。保留已有 `uid`、`id`、类型、拆分关联及 `parent` 等关系；不因新增 UID 改写旧编号、文件名或引用目标。UID 为仓库内唯一的五位十进制字符串，保留前导零；同一 Git common repository 的分支和 worktree 统一查重，不使用跨仓库共享编号池。
 3. 文件名只用原语言的具体任务描述；类型只在 frontmatter 中记录，不加任何版本编号后缀。具体命名与版本记录见下文“Issue 文件命名与版本关联”。
-4. `issue/issue_template.md` 是唯一模板文件，`type: template` 表示模板身份。新版默认属性为 `uid`、`type`、`status`、`importance`、`emergency`、`updated-time`、`created-time`、`start-time`、`closed-time`、`created-version`、`closed-version`、`estimated-workhour`、`actual-workhour`、`commit-related`、`tags`。正文仅有 `# Description` 和 `# Comments` 两个一级标题，不为格式补空内容；已有扩展属性继续保留。
+4. `issue/issue_template.md` 是唯一模板文件，`type: template` 表示模板身份。新版默认属性为 `uid`、`type`、`status`、`importance`、`emergency`、`updated-time`、`created-time`、`start-time`、`closed-time`、`created-version`、`closed-version`、`estimated-workhour`、`actual-workhour`、`commit-related`、`assignees`、`tags`。正文仅有 `# Description` 和 `# Comments` 两个一级标题，不为格式补空内容；已有扩展属性继续保留。
 5. 按“任务分类与追踪协作”判断：功能性任务必须有最具体的 Issue，自动复用、修改或判断新任务 / 子任务；事务性按项目记录约定处理，不为普通追踪判断反复确认。这不授权额外创建分支或 worktree。
 6. `Description` 维护具体对象、目标行为、范围、当前事实与阻塞；属性记在 frontmatter。可使用 Markdown 原生语法、子标题、列表、checkbox 和行内图片；子分组只作为 Description 内容渲染，不新增 myIssue 专用分组。实现、检查与用户验收按实际需要表达。
 7. `# Comments` 只追加。每条 Comment 用二级标题 `## YYYYMMDD-HHMMSS_Name_Model-Detail`，人类记录省略 Model-Detail；AI 的 Name 是实际执行 Agent；Model-Detail 必须按“厂牌-确切版本-规模/型号档位-推理级别-是否选择加速模式”记录五个维度，例如 `GPT-6.1-SOL-MAX-FAST`，不能用 `GPT`、`GPT-6` 或系列名代替确切版本。仅在有可验证执行元信息时填写；加速维度明确用 `FAST`、`NONFAST`（已核实未选择加速）或 `UNKNOWN`，不得把响应速度、订阅档位、服务优先级当作选择了加速。每个未知维度写 `UNKNOWN` 并在正文说明不可核实，不以当前配置回填历史参数。每次任务执行完成后记录，标题时间为实际记录时间。涉及提交时，在该条开头用 Obsidian 引用格式 `>` 记录真实 Git commit hash / P4 changelist，并汇总到 `commit-related` 列表；同一 Issue 可涉及多个 change。该条末尾用 `>` 引用有来源依据的真实会话深度链接。行内图片使用 `issue/attachment`。Description 维护当前事实，历史 Comment 与来源保留；时间、Agent、模型、提交或原会话无法追溯时说明缺失，不补造，不照抄模板示例，也不把文档迁移对话冒充业务执行对话。
